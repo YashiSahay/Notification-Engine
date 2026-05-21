@@ -36,7 +36,7 @@ A production-grade, full-stack notification infrastructure platform built with t
 
 ### 1. Clone the repo
 \\\ash
-git clone https://github.com/YashiSahay/Notification-Engine.git
+git clone https://github.com/Yashi1204/Notification-Engine.git
 cd Notification-Engine
 \\\
 
@@ -96,8 +96,8 @@ Dashboard stats and charts fetch live from MongoDB. Queue monitor polls every 5 
 
 ## 👩‍💻 Author
 
-**Yashi Sahay**
-[GitHub](https://github.com/YashiSahay) • [LinkedIn](https://linkedin.com/in/yashi1204)
+**Yashi**
+[GitHub](https://github.com/Yashi1204) • [LinkedIn](https://www.linkedin.com/in/yashi1204)
 
 ---
 
