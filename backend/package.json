@@ -1,0 +1,23 @@
+{
+  "name": "notification-backend",
+  "version": "1.0.0",
+  "description": "Solid Full-Stack Notification Engine",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bull": "^4.16.5",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "google-auth-library": "^10.6.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.23.1",
+    "nodemailer": "^6.10.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
