@@ -1,4 +1,4 @@
-﻿# 🚀 Notification Engine
+# 🚀 Notification Engine
 
 A production-grade, full-stack notification infrastructure platform built with the MERN stack. Supports real-time email delivery, Bull job queues, Redis-backed processing, JWT authentication, Google OAuth, and a live analytics dashboard.
 
@@ -35,27 +35,27 @@ A production-grade, full-stack notification infrastructure platform built with t
 ## ⚙️ Setup
 
 ### 1. Clone the repo
-\\\ash
+```bash
 git clone https://github.com/Yashi1204/Notification-Engine.git
 cd Notification-Engine
-\\\
+```
 
 ### 2. Backend
-\\\ash
+```bash
 cd backend && npm install
 cp .env.example .env
 node server.js
-\\\
+```
 
 ### 3. Frontend
-\\\ash
+```bash
 cd frontend && npm install && npm run dev
-\\\
+```
 
 ### 4. Redis
-\\\ash
+```bash
 redis-server
-\\\
+```
 
 ---
 
@@ -63,11 +63,11 @@ redis-server
 
 | Method | Endpoint | Description | Auth |
 |---|---|---|---|
-| POST | \/api/auth/register\ | Register new user | ❌ |
-| POST | \/api/auth/login\ | Login with JWT | ❌ |
-| POST | \/api/auth/google\ | Google OAuth login | ❌ |
-| POST | \/api/notifications/send\ | Send notification | ✅ |
-| GET | \/api/notifications\ | Get all notifications | ❌ |
+| POST | `/api/auth/register` | Register new user | ❌ |
+| POST | `/api/auth/login` | Login with JWT | ❌ |
+| POST | `/api/auth/google` | Google OAuth login | ❌ |
+| POST | `/api/notifications/send` | Send notification | ✅ |
+| GET | `/api/notifications` | Get all notifications | ❌ |
 
 ---
 
@@ -96,7 +96,7 @@ Dashboard stats and charts fetch live from MongoDB. Queue monitor polls every 5 
 
 ## 👩‍💻 Author
 
-**Yashi**
+**Yashi**  
 [GitHub](https://github.com/Yashi1204) • [LinkedIn](https://www.linkedin.com/in/yashi1204)
 
 ---
