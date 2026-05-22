@@ -8,7 +8,7 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
    const endpoint = isLogin ? 'login' : 'register'; 
-    const res = await fetch(`http://localhost:5000/api/auth/${endpoint}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })

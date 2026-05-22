@@ -381,7 +381,7 @@ const DashboardView = () => {
     const fetchDashboardData = async () => {
         setIsRefreshing(true);
         try {
-            const response = await fetch('http://localhost:5000/api/notifications');
+            const response = await fetch('https://notification-engine-wdmj.onrender.com/api/notifications');
             const allData = await response.json();
 
             // 1. Calculate Real Stat Card Values
@@ -554,7 +554,7 @@ const ComposeView = ({ triggerToast }) => {
     const handleSend = async () => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch('http://localhost:5000/api/notifications/send', {
+            const response = await fetch('https://notification-engine-wdmj.onrender.com/api/notifications/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -721,7 +721,7 @@ const AnalyticsView = () => {
     useEffect(() => {
         const fetchLogs = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/notifications');
+                const response = await fetch('https://notification-engine-wdmj.onrender.com/api/notifications');
                 const data = await response.json();
                 setLogs(data);
                 setFilteredLogs(data); // Default view shows everything
@@ -878,7 +878,7 @@ const QueueMonitorView = () => {
 
     const fetchQueueStats = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/notifications');
+            const response = await fetch('https://notification-engine-wdmj.onrender.com/api/notifications');
             const data = await response.json();
 
             // Calculate real-time metrics based on database statuses
@@ -993,7 +993,7 @@ const UserPreferencesView = () => {
     useEffect(() => {
         const fetchCurrentPrefs = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/preferences');
+                const response = await fetch('https://notification-engine-wdmj.onrender.com/api/preferences');
                 if (response.ok) {
                     const data = await response.json();
                     setPrefs(data);
@@ -1007,7 +1007,7 @@ const UserPreferencesView = () => {
 
     const handleSave = async () => {
         try {
-            await fetch('http://localhost:5000/api/preferences', {
+            await fetch('https://notification-engine-wdmj.onrender.com/api/preferences', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(prefs)
@@ -1211,7 +1211,7 @@ const AuthPage = ({ onLoginSuccess }) => {
         e.preventDefault();
         setError('');
         try {
-            const response = await fetch(`http://localhost:5000/api/auth/${isLogin ? 'login' : 'register'}`, {
+            const response = await fetch(`https://notification-engine-wdmj.onrender.com/api/auth/${isLogin ? 'login' : 'register'}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
@@ -1243,7 +1243,7 @@ const AuthPage = ({ onLoginSuccess }) => {
             client_id: '1091954939952-vl37plq92jukaa02l21rotvhv7eofpfr.apps.googleusercontent.com',
             callback: async (response) => {
                 try {
-                    const res = await fetch('http://localhost:5000/api/auth/google', {
+                    const res = await fetch('https://notification-engine-wdmj.onrender.com/api/auth/google', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ credential: response.credential })
