@@ -1475,7 +1475,7 @@ const AuthPage = ({ onLoginSuccess }) => {
                             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 <form className="space-y-5" onSubmit={async (e) => {
                                     e.preventDefault();
-                                    const emailInput = e.target.querySelector('input[type="email"]').value;
+                                    const emailInput = email;
                                     try {
                                         const res = await fetch('https://notification-engine-wdmj.onrender.com/api/auth/forgot-password', {
                                             method: 'POST',
@@ -1491,7 +1491,7 @@ const AuthPage = ({ onLoginSuccess }) => {
                                 }}>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">Registered Email</label>
-                                        <input type="email" placeholder="you@company.com" required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all font-sans" />
+                                        <input type="email" placeholder="you@company.com" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all font-sans" />
                                     </div>
                                     <button type="submit" className="w-full py-4 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all">Send Recovery Link</button>
                                     <button type="button" onClick={() => setIsForgot(false)} className="w-full text-sm font-bold text-slate-400 hover:text-slate-600 transition-all">← Back to login</button>
