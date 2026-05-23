@@ -303,10 +303,15 @@ const App = () => {
         setTimeout(() => setToast({ show: false, message: '', type: '' }), 3000);
     };
 
-    // Add this block here
-    if (!isLoggedIn) {
-        return <AuthPage onLoginSuccess={() => setIsLoggedIn(true)} />;
-    }
+    const urlParams = new URLSearchParams(window.location.search);
+const resetToken = urlParams.get('token');
+if (window.location.pathname === '/reset-password' && resetToken) {
+    return <ResetPasswordPage token={resetToken} />;
+}
+
+if (!isLoggedIn) {
+    return <AuthPage onLoginSuccess={() => setIsLoggedIn(true)} />;
+}
 
     return (
         <div className="flex flex-col min-h-screen bg-[#F8FAFC] font-sans text-[#475569]">
@@ -1195,6 +1200,56 @@ const ChannelCardFunctional = ({ icon, name, active, onClick }) => (
         <div className={`text-[10px] font-bold uppercase mt-1 ${active ? 'text-blue-400' : 'text-slate-400'}`}>{active ? 'Enabled' : 'Disabled'}</div>
     </div>
 );
+
+const ResetPasswordPage = ({ token }) => {
+    const [password, setPassword] = useState('');
+    const [done, setDone] = useState(false);
+    const [error, setError] = useState('');
+
+    const handleReset = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch('https://notification-engine-wdmj.onrender.com/api/auth/reset-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, password })
+            });
+            const data = await res.json();
+            if (res.ok) setDone(true);
+            else setError(data.message);
+        } catch (err) {
+            setError('Backend not reachable');
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-white flex items-center justify-center font-sans">
+            <div className="max-w-md w-full p-10">
+                {!done ? (
+                    <>
+                        <h2 className="text-3xl font-bold mb-2">Set new password</h2>
+                        <p className="text-slate-500 mb-8">Enter your new password below.</p>
+                        <form className="space-y-5" onSubmit={handleReset}>
+                            <input type="password" placeholder="New password" required value={password} onChange={(e) => setPassword(e.target.value)}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-50 transition-all" />
+                            {error && <p className="text-rose-500 text-sm font-bold">{error}</p>}
+                            <button type="submit" className="w-full py-4 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all">Reset Password</button>
+                        </form>
+                    </>
+                ) : (
+                    <div className="text-center">
+                        <div className="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <CheckCircle2 size={32} />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">Password reset!</h3>
+                        <p className="text-slate-500 mb-8">You can now sign in with your new password.</p>
+                        <button onClick={() => window.location.href = '/'} className="w-full py-4 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition-all">Go to Login</button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
 
 export default App;
 
