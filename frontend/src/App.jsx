@@ -552,23 +552,23 @@ const ComposeView = ({ triggerToast }) => {
     const [recipient, setRecipient] = useState('');
 
     const handleSend = async () => {
-        const token = localStorage.getItem('token');
-        try {
-            const response = await fetch('https://notification-engine-wdmj.onrender.com/api/notifications/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ type, channels, recipient, subject, body, priority })
-            });
-            const data = await response.json();
-            if (response.ok) triggerToast('Notification queued successfully', 'success');
-            else triggerToast(data.message, 'error');
-        } catch (err) {
-            triggerToast('Backend not reachable', 'error');
-        }
-    };
+    const token = localStorage.getItem('token');
+    triggerToast('Notification queued successfully', 'success');
+    try {
+        const response = await fetch('https://notification-engine-wdmj.onrender.com/api/notifications/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ type, channels, recipient, subject, body, priority })
+        });
+        const data = await response.json();
+        if (!response.ok) triggerToast(data.message, 'error');
+    } catch (err) {
+        triggerToast('Backend not reachable', 'error');
+    }
+};
 
     const handleTypeChange = (t) => {
         setType(t);
