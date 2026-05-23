@@ -1,11 +1,19 @@
-const { Resend } = require('resend');
+const nodemailer = require('nodemailer');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  host: 'smtp-relay.brevo.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'ac4856001@smtp-brevo.com',
+    pass: '0xv8X3HWa6y71FBp'
+  }
+});
 
 const sendEmail = async (to, subject, body) => {
   try {
-    await resend.emails.send({
-      from: 'Notification Engine <onboarding@resend.dev>',
+    await transporter.sendMail({
+      from: '"Notification Engine" <yashisahay1204@gmail.com>',
       to,
       subject,
       text: body,
