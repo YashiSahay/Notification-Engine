@@ -552,23 +552,23 @@ const ComposeView = ({ triggerToast }) => {
     const [recipient, setRecipient] = useState('');
 
     const handleSend = async () => {
-    const token = localStorage.getItem('token');
-    triggerToast('Notification queued successfully', 'success');
-    try {
-        const response = await fetch('https://notification-engine-wdmj.onrender.com/api/notifications/send', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ type, channels, recipient, subject, body, priority })
-        });
-        const data = await response.json();
-        if (!response.ok) triggerToast(data.message, 'error');
-    } catch (err) {
-        triggerToast('Backend not reachable', 'error');
-    }
-};
+        const token = localStorage.getItem('token');
+        triggerToast('Notification queued successfully', 'success');
+        try {
+            const response = await fetch('https://notification-engine-wdmj.onrender.com/api/notifications/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ type, channels, recipient, subject, body, priority })
+            });
+            const data = await response.json();
+            if (!response.ok) triggerToast(data.message, 'error');
+        } catch (err) {
+            triggerToast('Backend not reachable', 'error');
+        }
+    };
 
     const handleTypeChange = (t) => {
         setType(t);
@@ -957,8 +957,8 @@ const QueueMonitorView = () => {
                                 <td className="py-4 px-2 text-slate-500">{job.recipient}</td>
                                 <td className="py-4 px-2">
                                     <span className={`px-2 py-1 rounded-full text-[10px] uppercase font-black ${job.status === 'sent' ? 'bg-emerald-50 text-emerald-600' :
-                                            job.status === 'failed' ? 'bg-rose-50 text-rose-600' :
-                                                'bg-blue-50 text-blue-600'
+                                        job.status === 'failed' ? 'bg-rose-50 text-rose-600' :
+                                            'bg-blue-50 text-blue-600'
                                         }`}>
                                         {job.status || 'queued'}
                                     </span>
@@ -1229,45 +1229,45 @@ const AuthPage = ({ onLoginSuccess }) => {
             setError("Infrastructure offline: Backend not reachable");
         }
     };
-   useEffect(() => {
-    if (document.querySelector('script[src="https://accounts.google.com/gsi/client"]')) {
-        return;
-    }
+    useEffect(() => {
+        if (document.querySelector('script[src="https://accounts.google.com/gsi/client"]')) {
+            return;
+        }
 
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    document.body.appendChild(script);
-    script.onload = () => {
-        window.google.accounts.id.initialize({
-            client_id: '1091954939952-vl37plq92jukaa02l21rotvhv7eofpfr.apps.googleusercontent.com',
-            callback: async (response) => {
-                try {
-                    const res = await fetch('https://notification-engine-wdmj.onrender.com/api/auth/google', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ credential: response.credential })
-                    });
-                    const data = await res.json();
-                    if (res.ok) {
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('userEmail', data.email);
-                        onLoginSuccess();
-                    } else {
-                        setError(data.message || 'Google login failed');
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        document.body.appendChild(script);
+        script.onload = () => {
+            window.google.accounts.id.initialize({
+                client_id: '1091954939952-vl37plq92jukaa02l21rotvhv7eofpfr.apps.googleusercontent.com',
+                callback: async (response) => {
+                    try {
+                        const res = await fetch('https://notification-engine-wdmj.onrender.com/api/auth/google', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ credential: response.credential })
+                        });
+                        const data = await res.json();
+                        if (res.ok) {
+                            localStorage.setItem('token', data.token);
+                            localStorage.setItem('userEmail', data.email);
+                            onLoginSuccess();
+                        } else {
+                            setError(data.message || 'Google login failed');
+                        }
+                    } catch (err) {
+                        setError('Google auth failed — backend unreachable');
                     }
-                } catch (err) {
-                    setError('Google auth failed — backend unreachable');
                 }
-            }
-        });
-        window.google.accounts.id.renderButton(
-            document.getElementById('google-signin-btn'),
-            { theme: 'outline', size: 'large', width: 400 } // ✅ fixed pixel width
-        );
-    };
-}, []);
-   
+            });
+            window.google.accounts.id.renderButton(
+                document.getElementById('google-signin-btn'),
+                { theme: 'outline', size: 'large', width: 400 } // ✅ fixed pixel width
+            );
+        };
+    }, []);
+
     return (
         <div className="min-h-screen bg-white flex flex-col font-sans text-slate-900">
             {/* NAVBAR */}
@@ -1418,7 +1418,22 @@ const AuthPage = ({ onLoginSuccess }) => {
                         ) : !emailSent ? (
                             /* FORGOT PASSWORD FORM */
                             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); setEmailSent(true); }}>
+                                <form className="space-y-5" onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const emailInput = e.target.querySelector('input[type="email"]').value;
+                                    try {
+                                        const res = await fetch('https://notification-engine-wdmj.onrender.com/api/auth/forgot-password', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ email: emailInput })
+                                        });
+                                        const data = await res.json();
+                                        if (res.ok) setEmailSent(true);
+                                        else setError(data.message);
+                                    } catch (err) {
+                                        setError('Backend not reachable');
+                                    }
+                                }}>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">Registered Email</label>
                                         <input type="email" placeholder="you@company.com" required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-50 outline-none transition-all font-sans" />
