@@ -20,11 +20,11 @@ const limiter = rateLimit({
   validate: { xForwardedForHeader: false }
 });
 
-// Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://notification-engine-alpha.vercel.app'],
+  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://notification-engine-alpha.vercel.app', 'https://notification-engine-git-main-yashi1204s-projects.vercel.app'],
   credentials: true
 }));
+
 app.use(express.json());
 app.use('/api/', limiter);
 
