@@ -47,8 +47,8 @@ router.post('/forgot-password', async (req, res) => {
     user.resetToken = resetToken;
     user.resetExpiry = Date.now() + 3600000;
     await user.save();
-
-    const resetLink = `https://notification-engine-git-main-yashi1204s-projects.vercel.app/reset-password?token=${token}`;
+   
+    const resetLink = `https://notification-engine-git-main-yashi1204s-projects.vercel.app/reset-password?token=${resetToken}`;
 
     await axios.post('https://api.brevo.com/v3/smtp/email', {
       sender: { name: 'Notification Engine', email: 'yashisahay1204@gmail.com' },
